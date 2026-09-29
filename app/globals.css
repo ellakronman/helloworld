@@ -1,26 +1,126 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+* {
+  box-sizing: border-box;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: #f6f7f9;
+  color: #171717;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+main {
+  width: 100%;
+  max-width: 560px;
+  margin: 80px auto;
+  padding: 36px;
+  background: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+h1 {
+  margin: 0 0 24px;
+  font-size: 28px;
+}
+
+h2 {
+  margin: 28px 0 16px;
+  font-size: 20px;
+}
+
+p {
+  line-height: 1.5;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+li {
+  padding: 14px 0;
+  border-bottom: 1px solid #eeeeee;
+}
+
+li:last-child {
+  border-bottom: none;
+}
+
+hr {
+  margin: 28px 0;
+  border: 0;
+  border-top: 1px solid #e5e5e5;
+}
+
+button {
+  border: 0;
+  border-radius: 8px;
+  padding: 11px 18px;
+  background: #171717;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+a {
+  color: #171717;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+form > div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+input {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1px solid #d5d5d5;
+  border-radius: 8px;
+  font: inherit;
+}
+
+input:focus {
+  outline: 2px solid #171717;
+  outline-offset: 1px;
+}
+
+img {
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+@media (max-width: 640px) {
+  main {
+    margin: 24px auto;
+    width: calc(100% - 32px);
+    padding: 24px;
+  }
 }
