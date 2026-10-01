@@ -1,42 +1,46 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { createClient } from "@/lib/supabase/server";
 import GoogleSignIn from "./components/GoogleSignIn";
+import SignOutButton from "./members/SignOutButton";
+import { createAdminClient } from "@/lib/supabase/admin";
 
-type Movie = {
-    id: number;
-    title: string;
-    year: number;
-};
+export default async function Home() {
+    const supabase = await createClient();
 
-export default function Home() {
-    const [movies, setMovies] = useState<Movie[]>([]);
+    const {
+        data: { user },
+    } = await supabase.auth.getUser();
 
-    useEffect(() => {
-        const getMovies = async () => {
-            const supabase = createClient();
+    // LOGGED OUT
+    if (!user) {
+        return (
+            <main>
+                <h1>My Movie List</h1>
 
-            const { data, error } = await supabase
-                .from("movies")
-                .select("*");
+                <p>Sign in to see the movies stored in Supabase.</p>
 
-            if (error) {
-                console.error("Error fetching movies:", error);
-                return;
-            }
+                <GoogleSignIn />
+            </main>
+        );
+    }
 
-            setMovies(data ?? []);
-        };
+    // LOGGED IN: now fetch the protected Supabase data
+    const admin = createAdminClient();
 
-        getMovies();
-    }, []);
+    const { data: movies, error } = await admin
+        .from("movies")
+        .select("*");
+
+    if (error) {
+        console.error("Error fetching movies:", error);
+    }
 
     return (
         <main>
             <h1>My Movie List</h1>
 
-            {movies.length > 0 ? (
+            <p>Signed in as {user.email}</p>
+
+            {movies && movies.length > 0 ? (
                 <ul>
                     {movies.map((movie) => (
                         <li key={movie.id}>
@@ -50,8 +54,16 @@ export default function Home() {
 
             <hr />
 
-            <h2>Account</h2>
-            <GoogleSignIn />
+            <div
+                style={{
+                    display: "flex",
+                    gap: "16px",
+                    alignItems: "center",
+                }}
+            >
+                <a href="/profile">Profile</a>
+                <SignOutButton />
+            </div>
         </main>
     );
 }

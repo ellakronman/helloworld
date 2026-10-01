@@ -47,6 +47,6 @@ export async function GET(request: Request) {
     }
 
     return NextResponse.redirect(
-        new URL("/members", requestUrl.origin)
+        new URL("/", requestUrl.origin)
     );
 }

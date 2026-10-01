@@ -73,7 +73,7 @@ export default function ProfileForm({
             return;
         }
 
-        router.push("/members");
+        router.push("/");
         router.refresh();
     };
 
