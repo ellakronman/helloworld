@@ -1,0 +1,446 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #f1eee6;
+    color: #111;
+}
+
+.uploadPage {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 100vw;
+    max-width: none;
+    min-height: 100vh;
+
+    margin: 0;
+    padding: 28px max(40px, calc((100vw - 1280px) / 2)) 100px;
+
+    background: #f1eee6;
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.uploadHeader {
+    width: 100%;
+    max-width: 1280px;
+
+    margin: 0 auto 75px;
+    padding-top: 14px;
+
+    border-top: 3px solid #111;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.backLink,
+.clubMark {
+    color: #111;
+
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.backLink {
+    text-decoration: none;
+}
+
+.backLink:hover {
+    text-decoration: underline;
+}
+
+.uploadIntro {
+    position: relative;
+
+    width: 100%;
+    max-width: 1280px;
+
+    margin: 0 auto 70px;
+}
+
+.eyebrow {
+    margin: 0 0 14px;
+
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+}
+
+.uploadIntro h1 {
+    margin: 0;
+
+    max-width: 1050px;
+
+    font-size: clamp(64px, 9vw, 140px);
+    line-height: 0.78;
+    letter-spacing: -0.075em;
+    font-weight: 900;
+}
+
+.introCopy {
+    margin: 35px 0 0 auto;
+
+    width: 290px;
+
+    font-size: 12px;
+    line-height: 1.4;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+/* ENTRY */
+
+.entryArea {
+    width: 100%;
+    max-width: 1280px;
+
+    margin: 0 auto;
+
+    border-top: 1px solid #111;
+    padding-top: 22px;
+}
+
+.hiddenFileInput {
+    display: none;
+}
+
+/* EMPTY STATE */
+
+.dropZone {
+    position: relative;
+
+    display: grid;
+    grid-template-columns: 70px 1fr auto;
+    align-items: end;
+    gap: 30px;
+
+    width: 100%;
+    min-height: 430px;
+
+    padding: 30px;
+
+    border: 2px solid #111;
+    background: transparent;
+    color: #111;
+
+    text-align: left;
+    cursor: pointer;
+
+    transition:
+            background 160ms ease,
+            color 160ms ease,
+            transform 160ms ease;
+}
+
+.dropZone:hover {
+    background: #111;
+    color: #f1eee6;
+
+    transform: rotate(-0.3deg);
+}
+
+.dropNumber {
+    align-self: start;
+
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+}
+
+.dropMain {
+    font-size: clamp(60px, 8vw, 120px);
+    line-height: 0.76;
+    letter-spacing: -0.065em;
+    font-weight: 900;
+}
+
+.dropHint {
+    padding-bottom: 5px;
+
+    font-size: 10px;
+    line-height: 1.5;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+}
+
+/* SELECTED IMAGE */
+
+.selectedPhoto {
+    width: min(850px, 85%);
+
+    margin: 20px auto 60px;
+}
+
+.previewFrame {
+    position: relative;
+
+    width: 100%;
+
+    transform: rotate(-1.5deg);
+}
+
+.previewImage {
+    display: block;
+
+    width: 100%;
+    max-height: 650px;
+
+    object-fit: contain;
+
+    background: #ddd;
+
+    box-shadow: 15px 17px 0 #111;
+}
+
+.previewStamp {
+    position: absolute;
+    right: -25px;
+    bottom: -24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 105px;
+    height: 105px;
+
+    border-radius: 50%;
+
+    background: #e63d2f;
+    color: #fff;
+
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+
+    transform: rotate(12deg);
+}
+
+.photoControls {
+    margin-top: 40px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 25px;
+}
+
+.selectedLabel {
+    margin: 0 0 5px;
+
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+}
+
+.fileName {
+    max-width: 600px;
+
+    margin: 0;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    overflow-wrap: anywhere;
+}
+
+.changeButton {
+    appearance: none;
+
+    border: 0;
+    border-bottom: 1px solid #111;
+
+    padding: 3px 0;
+
+    background: transparent;
+    color: #111;
+
+    font: inherit;
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+
+    cursor: pointer;
+}
+
+/* BOTTOM ACTION */
+
+.entryFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+
+    margin-top: 45px;
+    padding-top: 18px;
+
+    border-top: 1px solid #111;
+}
+
+.statusArea {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.statusDot {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #e63d2f;
+
+    animation: pulse 0.8s infinite alternate;
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(0.7);
+        opacity: 0.4;
+    }
+
+    to {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+}
+
+.statusText {
+    margin: 0;
+
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+}
+
+.enterButton {
+    appearance: none;
+
+    border: 0;
+
+    padding: 19px 24px;
+
+    background: #111;
+    color: #fff;
+
+    font: inherit;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+
+    cursor: pointer;
+
+    transition:
+            transform 150ms ease,
+            background 150ms ease;
+}
+
+.enterButton:hover:not(:disabled) {
+    background: #e63d2f;
+    transform: rotate(-1deg);
+}
+
+.enterButton:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.uploadError {
+    margin: 20px 0 0;
+
+    font-size: 11px;
+    line-height: 1.4;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+
+    color: #b42318;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+    .uploadPage {
+        padding: 18px 18px 70px;
+    }
+
+    .uploadHeader {
+        margin-bottom: 55px;
+    }
+
+    .clubMark {
+        display: none;
+    }
+
+    .uploadIntro {
+        margin-bottom: 55px;
+    }
+
+    .uploadIntro h1 {
+        font-size: clamp(58px, 17vw, 95px);
+    }
+
+    .introCopy {
+        width: 100%;
+
+        margin: 30px 0 0;
+    }
+
+    .dropZone {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        min-height: 450px;
+
+        padding: 22px;
+    }
+
+    .dropMain {
+        font-size: clamp(58px, 17vw, 90px);
+    }
+
+    .selectedPhoto {
+        width: 90%;
+    }
+
+    .previewStamp {
+        right: -15px;
+
+        width: 85px;
+        height: 85px;
+
+        font-size: 15px;
+    }
+
+    .photoControls {
+        display: block;
+    }
+
+    .changeButton {
+        margin-top: 20px;
+    }
+
+    .entryFooter {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .enterButton {
+        width: 100%;
+    }
+}

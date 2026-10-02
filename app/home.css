@@ -1,0 +1,409 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #f1eee6;
+    color: #111;
+}
+
+.homePage {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 100vw;
+    max-width: none;
+    min-height: 100vh;
+
+    margin: 0;
+    padding: 28px max(40px, calc((100vw - 1280px) / 2)) 50px;
+
+    background: #f1eee6;
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* NAVIGATION */
+
+.homeNav {
+    width: 100%;
+    max-width: 1280px;
+
+    margin: 0 auto;
+
+    padding: 13px 0;
+
+    border-top: 3px solid #111;
+    border-bottom: 1px solid #111;
+
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    align-items: center;
+    gap: 35px;
+}
+
+.homeMark {
+    color: #111;
+
+    font-size: 24px;
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: -0.06em;
+
+    text-decoration: none;
+}
+
+.navLinks {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.navLinks a,
+.navAccount,
+.navAccount button {
+    color: #111;
+
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+}
+
+.navLinks a {
+    text-decoration: none;
+}
+
+.navLinks a:hover {
+    text-decoration: underline;
+}
+
+.navAccount {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 13px;
+}
+
+.navAccount button {
+    appearance: none;
+
+    border: 0;
+    border-bottom: 1px solid #111;
+
+    padding: 2px 0;
+
+    background: transparent;
+
+    cursor: pointer;
+}
+
+/* HERO */
+
+.hero {
+    width: 100%;
+    max-width: 1280px;
+
+    margin: 80px auto 120px;
+}
+
+.heroEyebrow {
+    margin: 0 0 16px;
+
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+}
+
+.hero h1 {
+    margin: 0;
+
+    font-size: clamp(90px, 14vw, 205px);
+    line-height: 0.72;
+    letter-spacing: -0.085em;
+    font-weight: 900;
+}
+
+.heroBottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 50px;
+
+    margin-top: 55px;
+}
+
+.heroDescription {
+    margin: 0;
+
+    font-size: clamp(20px, 2vw, 30px);
+    line-height: 0.98;
+    font-weight: 900;
+    letter-spacing: -0.035em;
+}
+
+.heroActions {
+    min-width: 280px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+}
+
+.primaryAction,
+.secondaryAction {
+    display: block;
+
+    padding: 17px 20px;
+
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+
+    text-decoration: none;
+
+    transition:
+            transform 150ms ease,
+            background 150ms ease;
+}
+
+.primaryAction {
+    background: #111;
+    color: #fff;
+}
+
+.primaryAction:hover {
+    background: #e63d2f;
+    transform: rotate(-1deg);
+}
+
+.secondaryAction {
+    border: 1px solid #111;
+
+    color: #111;
+
+    text-align: center;
+}
+
+.secondaryAction:hover {
+    background: #111;
+    color: #fff;
+}
+
+.signInBlock {
+    border: 1px solid #111;
+
+    padding: 16px 18px;
+}
+
+.signInBlock p {
+    margin: 0 0 10px;
+
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+}
+
+/*
+  This lets the existing GoogleSignIn component
+  live inside the new design without changing its logic.
+*/
+.signInBlock button {
+    width: 100%;
+
+    border: 0;
+
+    padding: 13px;
+
+    background: #111;
+    color: #fff;
+
+    font: inherit;
+    font-size: 10px;
+    font-weight: 900;
+
+    cursor: pointer;
+}
+
+/* HOW IT WORKS */
+
+.rules {
+    width: 100%;
+    max-width: 1280px;
+
+    margin: 0 auto 120px;
+
+    padding-top: 18px;
+
+    border-top: 1px solid #111;
+}
+
+.sectionLabel {
+    margin: 0 0 55px;
+
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+}
+
+.ruleRow {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    border-top: 1px solid #111;
+    border-bottom: 1px solid #111;
+}
+
+.rule {
+    min-height: 330px;
+
+    padding: 18px 25px 25px;
+
+    border-right: 1px solid #111;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.rule:last-child {
+    border-right: 0;
+}
+
+.rule > span {
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+}
+
+.rule h2 {
+    margin: auto 0 25px;
+
+    font-size: clamp(32px, 4vw, 58px);
+    line-height: 0.88;
+    letter-spacing: -0.055em;
+    font-weight: 900;
+}
+
+.rule p {
+    max-width: 260px;
+
+    margin: 0;
+
+    font-size: 11px;
+    line-height: 1.4;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* FOOTER */
+
+.homeFooter {
+    width: 100%;
+    max-width: 1280px;
+
+    margin: 0 auto;
+
+    padding-top: 14px;
+
+    border-top: 3px solid #111;
+
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+}
+
+.homeFooter a {
+    color: #111;
+    text-decoration: none;
+}
+
+.homeFooter a:hover {
+    text-decoration: underline;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+    .homePage {
+        padding: 18px 18px 40px;
+    }
+
+    .homeNav {
+        grid-template-columns: auto 1fr;
+    }
+
+    .navLinks {
+        justify-content: flex-end;
+        gap: 13px;
+    }
+
+    .navLinks a {
+        font-size: 8px;
+    }
+
+    .navLinks a:nth-child(n + 3) {
+        display: none;
+    }
+
+    .navAccount {
+        grid-column: 1 / -1;
+
+        justify-content: space-between;
+
+        padding-top: 10px;
+
+        border-top: 1px solid #111;
+    }
+
+    .hero {
+        margin: 60px auto 90px;
+    }
+
+    .hero h1 {
+        font-size: clamp(78px, 25vw, 130px);
+        line-height: 0.73;
+    }
+
+    .heroBottom {
+        display: block;
+
+        margin-top: 45px;
+    }
+
+    .heroActions {
+        min-width: 0;
+
+        margin-top: 40px;
+    }
+
+    .ruleRow {
+        display: block;
+    }
+
+    .rule {
+        min-height: 270px;
+
+        border-right: 0;
+        border-bottom: 1px solid #111;
+    }
+
+    .rule:last-child {
+        border-bottom: 0;
+    }
+
+    .rule h2 {
+        font-size: 48px;
+    }
+}
