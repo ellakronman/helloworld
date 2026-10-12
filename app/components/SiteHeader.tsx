@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import SignOutButton from "@/app/members/SignOutButton";
-import "./site-header.css";
+import "./SiteHeader.css";
 
 export default async function SiteHeader() {
     const supabase = await createClient();

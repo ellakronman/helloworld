@@ -76,9 +76,15 @@ export default async function ArenaPage() {
 
                     return (
                         <section className="fight" key={image.id}>
-                            <p className="fightNumber">
-                                FIGHT #{String(images.length - fightIndex).padStart(2, "0")}
-                            </p>
+                            <div className="fightInfo">
+                                <p className="fightNumber">
+                                    FIGHT #{String(images.length - fightIndex).padStart(2, "0")}
+                                </p>
+
+                                <p className="fightInstruction">
+                                    THE CHALLENGE: PICK THE FUNNIEST CAPTION ↓
+                                </p>
+                            </div>
 
                             <div className="photoWrap">
                                 <img

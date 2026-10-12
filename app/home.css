@@ -23,7 +23,7 @@ body {
     min-height: 100vh;
 
     margin: 0;
-    padding: 28px max(40px, calc((100vw - 1280px) / 2)) 50px;
+    padding: 0 max(40px, calc((100vw - 1280px) / 2)) 50px;
 
     background: #f1eee6;
 
@@ -111,7 +111,7 @@ body {
     width: 100%;
     max-width: 1280px;
 
-    margin: 80px auto 120px;
+    margin: 60px auto 120px;
 }
 
 .heroEyebrow {

@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 
@@ -19,7 +19,20 @@ export default function ProfileForm({
     const [lastName, setLastName] = useState(initialLastName);
     const [avatarUrl, setAvatarUrl] = useState(initialAvatarUrl);
     const [file, setFile] = useState<File | null>(null);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     const [message, setMessage] = useState("");
+
+    useEffect(() => {
+        if (!file) {
+            setPreviewUrl(null);
+            return;
+        }
+
+        const url = URL.createObjectURL(file);
+        setPreviewUrl(url);
+
+        return () => URL.revokeObjectURL(url);
+    }, [file]);
     const router = useRouter();
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -79,16 +92,36 @@ export default function ProfileForm({
 
     return (
         <form onSubmit={handleSubmit}>
-            {avatarUrl && (
-                <div>
-                    <img
-                        src={avatarUrl}
-                        alt="Profile"
-                        width={120}
-                        height={120}
-                    />
+            <div className="profileAvatarSection">
+                <div className="profileAvatarPreview">
+                    {previewUrl || avatarUrl ? (
+                        <img
+                            src={previewUrl || avatarUrl}
+                            alt="Your profile photo"
+                            width={120}
+                            height={120}
+                        />
+                    ) : (
+                        <span className="profileAvatarPlaceholder">?</span>
+                    )}
                 </div>
-            )}
+
+                <div className="profileAvatarActions">
+                    <label htmlFor="avatar" className="profileAvatarButton">
+                        CHANGE PHOTO ↗
+                    </label>
+
+                    <p>JPG, PNG, OR OTHER IMAGE FILE</p>
+                </div>
+
+                <input
+                    id="avatar"
+                    className="profileAvatarInput"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+                />
+            </div>
 
             <div>
                 <label htmlFor="firstName">First name</label>
@@ -107,16 +140,6 @@ export default function ProfileForm({
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
                     required
-                />
-            </div>
-
-            <div>
-                <label htmlFor="avatar">Profile photo</label>
-                <input
-                    id="avatar"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setFile(e.target.files?.[0] ?? null)}
                 />
             </div>
 
