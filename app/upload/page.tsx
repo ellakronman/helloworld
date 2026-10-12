@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import SiteHeader from "@/app/components/SiteHeader";
 import UploadForm from "./UploadForm";
 import "./upload.css";
 
@@ -15,7 +16,9 @@ export default async function UploadPage() {
     }
 
     return (
-        <main className="uploadPage">
+        <>
+            <SiteHeader />
+            <main className="uploadPage">
             <header className="uploadHeader">
                 <a href="/arena" className="backLink">
                     ← BACK TO THE FIGHTS
@@ -42,5 +45,6 @@ export default async function UploadPage() {
 
             <UploadForm />
         </main>
+            </>
     );
 }

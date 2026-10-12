@@ -1,0 +1,88 @@
+.siteHeader {
+    width: 100%;
+    background: #f1eee6;
+    color: #111;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.siteHeaderInner {
+    width: calc(100% - 36px);
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 16px 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+
+    border-top: 3px solid #111;
+    border-bottom: 1px solid #111;
+}
+
+.siteLogo {
+    flex-shrink: 0;
+    color: #111;
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: -0.07em;
+    text-decoration: none;
+}
+
+.siteNavigation {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.siteNavigation a {
+    color: #111;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.siteNavigation a:hover {
+    text-decoration: underline;
+}
+
+.siteAccount {
+    flex-shrink: 0;
+}
+
+.siteAccount button {
+    background: transparent;
+    color: #111;
+    padding: 8px 0;
+    border-radius: 0;
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+.guestLabel {
+    font-size: 12px;
+    color: #555;
+}
+
+@media (max-width: 700px) {
+    .siteHeaderInner {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .siteNavigation {
+        order: 3;
+        width: 100%;
+        gap: 18px;
+    }
+
+    .siteNavigation a {
+        font-size: 12px;
+    }
+
+    .siteAccount {
+        margin-left: auto;
+    }
+}

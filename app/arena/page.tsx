@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import SiteHeader from "@/app/components/SiteHeader";
 import VoteButtons from "./VoteButtons";
 import "./arena.css";
 
@@ -35,7 +36,9 @@ export default async function ArenaPage() {
     }
 
     return (
-        <main className="arena">
+        <>
+            <SiteHeader />
+            <main className="arena">
             <header className="arenaHeader">
                 <h1 className="logo">
                     CAPTION
@@ -140,6 +143,7 @@ export default async function ArenaPage() {
                     );
                 })
             )}
-        </main>
+            </main>
+        </>
     );
 }
