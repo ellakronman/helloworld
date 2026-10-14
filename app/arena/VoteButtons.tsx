@@ -25,13 +25,26 @@ export default function VoteButtons({
     const [error, setError] = useState<string | null>(null);
 
     async function vote(value: 1 | -1) {
-        if (!userId) return;
+        if (!userId || working) return;
 
         setWorking(true);
         setError(null);
 
         try {
-            if (currentVote === null) {
+            if (currentVote === value) {
+                // Clicking the same button again removes the vote
+                const { error: deleteError } = await supabase
+                    .from("votes")
+                    .delete()
+                    .eq("user_id", userId)
+                    .eq("caption_id", captionId);
+
+                if (deleteError) throw deleteError;
+
+                setCurrentVote(null);
+
+            } else if (currentVote === null) {
+                // No existing vote: create one
                 const { error: insertError } = await supabase
                     .from("votes")
                     .insert({
@@ -41,7 +54,11 @@ export default function VoteButtons({
                     });
 
                 if (insertError) throw insertError;
+
+                setCurrentVote(value);
+
             } else {
+                // Switching from upvote to downvote (or vice versa)
                 const { error: updateError } = await supabase
                     .from("votes")
                     .update({ value })
@@ -49,10 +66,12 @@ export default function VoteButtons({
                     .eq("caption_id", captionId);
 
                 if (updateError) throw updateError;
+
+                setCurrentVote(value);
             }
 
-            setCurrentVote(value);
             router.refresh();
+
         } catch (err) {
             console.error("Vote error:", err);
             setError(
