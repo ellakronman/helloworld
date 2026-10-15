@@ -33,13 +33,20 @@ export default function VoteButtons({
         try {
             if (currentVote === value) {
                 // Clicking the same button again removes the vote
-                const { error: deleteError } = await supabase
+                const { data, error: deleteError } = await supabase
                     .from("votes")
                     .delete()
                     .eq("user_id", userId)
-                    .eq("caption_id", captionId);
+                    .eq("caption_id", captionId)
+                    .select();
 
                 if (deleteError) throw deleteError;
+
+                console.log("Deleted votes:", data);
+
+                if (!data || data.length === 0) {
+                    throw new Error("No vote was deleted. Check the vote ID and permissions.");
+                }
 
                 setCurrentVote(null);
 
