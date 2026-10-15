@@ -27,6 +27,14 @@ export default function VoteButtons({
     async function vote(value: 1 | -1) {
         if (!userId || working) return;
 
+        console.log("VOTE DEBUG:", {
+            currentVote,
+            clickedValue: value,
+            currentVoteType: typeof currentVote,
+            clickedValueType: typeof value,
+            matches: currentVote === value,
+        });
+
         setWorking(true);
         setError(null);
 
