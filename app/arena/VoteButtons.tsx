@@ -19,6 +19,15 @@ export default function VoteButtons({ captionId, userId, initialVote }: VoteButt
     const requestInFlight = useRef(false);
 
     async function vote(value: Vote) {
+        console.log("VOTE DEBUG:", {
+            captionId,
+            clickedValue: value,
+            currentVote,
+            initialVote,
+            currentVoteType: typeof currentVote,
+            initialVoteType: typeof initialVote,
+            willDelete: currentVote === value,
+        });
         if (!userId || requestInFlight.current) return;
         requestInFlight.current = true;
         setWorking(true);
