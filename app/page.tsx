@@ -18,7 +18,7 @@ export default async function Home() {
 
 
             <section className="hero">
-                <p className="heroEyebrow">WELCOME TO THE INTERNET$apos;S LEAST NECESSARY SPORT</p>
+                <p className="heroEyebrow">WELCOME TO THE INTERNET&apos;S LEAST NECESSARY SPORT</p>
 
                 <h1>
                     CAPTION
