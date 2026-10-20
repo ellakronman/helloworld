@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import Link from "next/link";
 import SiteHeader from "@/app/components/SiteHeader";
 import VoteButtons from "./VoteButtons";
 import "./arena.css";
@@ -35,6 +36,15 @@ export default async function ArenaPage() {
         console.error("Votes fetch error:", votesError);
     }
 
+    // Validate values from the database before using them for scores or UI state.
+    const normalizedVotes = (votes ?? []).map((vote) => {
+        const value = Number(vote.value);
+        if (vote.value === null || (value !== 1 && value !== -1)) {
+            throw new Error(`Invalid vote value for caption ${vote.caption_id}`);
+        }
+        return { ...vote, value: value as 1 | -1 };
+    });
+
     return (
         <>
             <SiteHeader />
@@ -58,9 +68,9 @@ export default async function ArenaPage() {
                             THROW A PHOTO INTO THE RING →
                         </a>
                     ) : (
-                        <a href="/" className="throwButton">
+                        <Link href="/" className="throwButton">
                             SIGN IN TO ENTER →
-                        </a>
+                        </Link>
                     )}
                 </div>
             </header>
@@ -96,7 +106,7 @@ export default async function ArenaPage() {
 
                             {imageCaptions.map((caption, captionIndex) => {
                                 const captionVotes =
-                                    votes?.filter(
+                                    normalizedVotes.filter(
                                         (vote) => vote.caption_id === caption.id
                                     ) ?? [];
 
@@ -137,6 +147,7 @@ export default async function ArenaPage() {
                       </span>
 
                                             <VoteButtons
+                                                key={`${user?.id ?? "guest"}:${caption.id}:${currentUserVote ?? "none"}`}
                                                 captionId={caption.id}
                                                 userId={user?.id ?? null}
                                                 initialVote={currentUserVote}
