@@ -1,3 +1,4 @@
+import { startGeneration, finishGeneration } from "@/lib/generation-audit";
 import OpenAI from "openai";
 import { createClient } from "@/lib/supabase/server";
 
@@ -29,6 +30,7 @@ export async function POST(request: Request) {
         );
     }
 
+    const auditId = await startGeneration(user.id, "captions");
     try {
         const response = await openai.responses.create({
             model: "gpt-5.4-mini",
@@ -52,16 +54,19 @@ Return the captions as exactly four lines, with one caption per line.`,
             .slice(0, 4);
 
         if (captions.length !== 4) {
+            await finishGeneration(auditId, "failed");
             return Response.json(
                 { error: "The model did not return exactly four captions." },
                 { status: 500 }
             );
         }
 
+        await finishGeneration(auditId, "completed", response.output_text);
         return Response.json({
             captions,
         });
     } catch (error) {
+        await finishGeneration(auditId, "failed");
         console.error("Caption generation error:", error);
 
         return Response.json(

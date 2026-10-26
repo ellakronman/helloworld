@@ -1,3 +1,4 @@
+import { startGeneration, finishGeneration } from "@/lib/generation-audit";
 import OpenAI from "openai";
 import { createClient } from "@/lib/supabase/server";
 
@@ -29,6 +30,7 @@ export async function POST(request: Request) {
         );
     }
 
+    const auditId = await startGeneration(user.id, "image_description");
     try {
         const response = await openai.responses.create({
             model: "gpt-5.4-mini",
@@ -51,10 +53,12 @@ export async function POST(request: Request) {
             ],
         });
 
+        await finishGeneration(auditId, "completed", response.output_text);
         return Response.json({
             description: response.output_text,
         });
     } catch (error) {
+        await finishGeneration(auditId, "failed");
         console.error("Image description error:", error);
 
         return Response.json(
