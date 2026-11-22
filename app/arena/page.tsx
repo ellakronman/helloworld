@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import SiteHeader from "@/app/components/SiteHeader";
 import VoteButtons from "./VoteButtons";
@@ -54,18 +55,20 @@ export default async function ArenaPage() {
                     </p>
 
                     {user ? (
-                        <a href="/upload" className="throwButton">
+                        <Link href="/upload" className="throwButton">
                             THROW A PHOTO INTO THE RING →
-                        </a>
+                        </Link>
                     ) : (
-                        <a href="/" className="throwButton">
+                        <Link href="/" className="throwButton">
                             SIGN IN TO ENTER →
-                        </a>
+                        </Link>
                     )}
                 </div>
             </header>
 
-            {!images || images.length === 0 ? (
+            {imagesError || captionsError || votesError ? (
+                <p className="emptyArena" role="alert">The Arena could not load. Please refresh in a moment. Your saved fights and votes have not been changed.</p>
+            ) : !images || images.length === 0 ? (
                 <p className="emptyArena">NO FIGHTS YET.</p>
             ) : (
                 images.map((image, fightIndex) => {
@@ -75,7 +78,7 @@ export default async function ArenaPage() {
                         ) ?? [];
 
                     return (
-                        <section className="fight" key={image.id}>
+                        <section className="fight" key={image.id} id={`fight-${image.id}`}>
                             <div className="fightInfo">
                                 <p className="fightNumber">
                                     FIGHT #{String(images.length - fightIndex).padStart(2, "0")}
@@ -137,6 +140,7 @@ export default async function ArenaPage() {
                       </span>
 
                                             <VoteButtons
+                                                key={`${caption.id}:${user?.id ?? "guest"}:${currentUserVote}`}
                                                 captionId={caption.id}
                                                 userId={user?.id ?? null}
                                                 initialVote={currentUserVote}

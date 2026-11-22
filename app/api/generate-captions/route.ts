@@ -1,10 +1,9 @@
+import { signGeneration, verifyGeneration } from "@/lib/generation-proof";
 import { startGeneration, finishGeneration } from "@/lib/generation-audit";
 import OpenAI from "openai";
 import { createClient } from "@/lib/supabase/server";
 
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-});
+export const maxDuration = 60;
 
 export async function POST(request: Request) {
     const supabase = await createClient();
@@ -20,16 +19,22 @@ export async function POST(request: Request) {
         );
     }
 
-    const body = await request.json();
-    const description = body.description;
+    const body = await request.json().catch(() => null);
+    const signingKey = process.env.SUPABASE_SERVICE_ROLE_KEY ?? "";
+    const proof = verifyGeneration(body?.descriptionProof, user.id, signingKey);
+    const description = proof?.description;
 
-    if (!description || typeof description !== "string") {
+    if (!proof || !description || proof.captions) {
         return Response.json(
-            { error: "An image description is required." },
+            { error: "Please generate an image description first, or regenerate if it has expired." },
             { status: 400 }
         );
     }
 
+    if (!process.env.OPENAI_API_KEY) {
+        return Response.json({ error: "AI generation is not configured. Please contact the site owner." }, { status: 503 });
+    }
+    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY, timeout: 45_000, maxRetries: 0 });
     const auditId = await startGeneration(user.id, "captions");
     try {
         const response = await openai.responses.create({
@@ -50,8 +55,7 @@ Return the captions as exactly four lines, with one caption per line.`,
         const captions = response.output_text
             .split("\n")
             .map((caption) => caption.trim())
-            .filter((caption) => caption.length > 0)
-            .slice(0, 4);
+            .filter((caption) => caption.length > 0);
 
         if (captions.length !== 4) {
             await finishGeneration(auditId, "failed");
@@ -64,6 +68,7 @@ Return the captions as exactly four lines, with one caption per line.`,
         await finishGeneration(auditId, "completed", response.output_text);
         return Response.json({
             captions,
+            generationProof: signGeneration({ userId: user.id, imageUrl: proof.imageUrl, description, captions }, signingKey),
         });
     } catch (error) {
         await finishGeneration(auditId, "failed");

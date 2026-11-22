@@ -1,3 +1,4 @@
+import { verifyGeneration } from "@/lib/generation-proof";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
@@ -15,8 +16,15 @@ export async function POST(request: Request) {
         );
     }
 
-    const body = await request.json();
-    const { imageUrl, description, captions } = body;
+    // Validate privileged configuration before creating any database rows.
+    if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+        return Response.json({ error: "Saving is not configured. Please contact the site owner." }, { status: 503 });
+    }
+
+    const body = await request.json().catch(() => null);
+    const proof = verifyGeneration(body?.generationProof, user.id, process.env.SUPABASE_SERVICE_ROLE_KEY ?? "");
+    if (!proof) return Response.json({ error: "This generation cannot be verified or has expired. Please generate captions again." }, { status: 400 });
+    const { imageUrl, description, captions } = proof;
 
     if (
         typeof imageUrl !== "string" ||
@@ -32,6 +40,8 @@ export async function POST(request: Request) {
             { status: 400 }
         );
     }
+
+    const admin = createAdminClient();
 
     // Insert the image using the authenticated user's normal Supabase client.
     // Our images RLS policy requires user_id to equal auth.uid().
@@ -57,8 +67,6 @@ export async function POST(request: Request) {
     // Users intentionally do not have permission to create arbitrary captions.
     // This trusted server endpoint inserts only the captions produced by our
     // generation pipeline.
-    const admin = createAdminClient();
-
     const { error: captionsError } = await admin.from("captions").insert(
         captions.map((caption: string) => ({
             image_id: image.id,
@@ -70,7 +78,8 @@ export async function POST(request: Request) {
         console.error("Caption database error:", captionsError);
 
         // Avoid leaving behind an image with no captions.
-        await supabase.from("images").delete().eq("id", image.id);
+        const { error: cleanupError } = await supabase.from("images").delete().eq("id", image.id).select("id").single();
+        if (cleanupError) console.error("Incomplete generation cleanup failed:", cleanupError.code);
 
         return Response.json(
             { error: "Failed to save captions." },
