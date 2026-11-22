@@ -83,7 +83,6 @@ export default function ProfileForm({
                     first_name: firstName.trim(),
                     last_name: lastName.trim(),
                     avatar_url: newAvatarUrl,
-                    updated_at: new Date().toISOString(),
                 })
                 .eq("id", user.id).select("id").single();
 
